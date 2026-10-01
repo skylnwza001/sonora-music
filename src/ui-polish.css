@@ -1,0 +1,274 @@
+:root {
+  --shell-bg: #f3f4f1;
+  --panel: rgba(255, 255, 255, 0.9);
+  --panel-strong: #ffffff;
+  --card-line: rgba(26, 33, 31, 0.08);
+  --card-shadow: 0 18px 38px rgba(34, 42, 39, 0.08);
+  --ink: #1a2322;
+  --muted: #6e7b76;
+  --accent: #dd7f5c;
+  --accent-soft: #fff4ee;
+}
+
+body {
+  background: linear-gradient(180deg, #f4f5f2 0%, #efefec 100%);
+}
+
+.app-shell {
+  background: transparent;
+}
+
+.content {
+  max-width: 1200px;
+  padding-top: 30px;
+}
+
+header {
+  margin-bottom: 30px;
+}
+
+.search {
+  height: 48px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(26, 33, 31, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 12px 22px rgba(27, 35, 32, 0.04);
+}
+
+.search input {
+  font-size: 15px;
+  color: #2a3331;
+}
+
+.hero {
+  border-radius: 22px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-line);
+}
+
+.hero-copy {
+  padding: 36px 34px;
+}
+
+.hero-copy > span {
+  letter-spacing: 0.12em;
+  color: #60726b;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 0.96;
+  margin: 18px 0 14px;
+  color: #1d2d2b;
+}
+
+.hero-copy p {
+  color: #4f605d;
+  font-size: 15px;
+}
+
+.hero-play {
+  background: linear-gradient(180deg, #1b2725, #141d1b);
+  box-shadow: 0 12px 24px rgba(20, 29, 27, 0.18);
+}
+
+.section-head {
+  margin-top: 34px;
+  padding: 0 2px;
+}
+
+.section-head h2 {
+  font-size: 2rem;
+  color: #1c2927;
+}
+
+.section-head button {
+  background: #fff7f3;
+  border-color: #f1c7b3;
+  color: #d7704f;
+}
+
+.track-grid {
+  gap: 18px;
+}
+
+.album-card {
+  border-radius: 18px;
+  border: 1px solid var(--card-line);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 10px 26px rgba(27, 35, 32, 0.04);
+}
+
+.album-card:hover {
+  box-shadow: 0 16px 30px rgba(27, 35, 32, 0.09);
+}
+
+.album-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.song-list {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 14px 28px rgba(31, 40, 37, 0.05);
+}
+
+.song-header {
+  background: #f7f8f6;
+  border-color: #ecefe9;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.song-row {
+  min-height: 74px;
+  border-bottom: 1px solid #f0f1ee;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.song-row:hover,
+.song-row.selected {
+  background: linear-gradient(90deg, rgba(255, 248, 245, 0.95), rgba(255, 255, 255, 0.9));
+}
+
+.song-row .number {
+  color: #a9b3af;
+}
+
+.song-title strong {
+  color: #1d2524;
+}
+
+.song-title small,
+.album-name,
+.song-duration,
+.now-playing small {
+  color: #687772;
+}
+
+.player {
+  background: rgba(255, 255, 255, 0.94);
+  border-top: 1px solid rgba(26, 33, 31, 0.08);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -12px 32px rgba(31, 39, 36, 0.08);
+}
+
+.controls .main-control {
+  background: linear-gradient(180deg, #1d2725, #141d1b);
+  box-shadow: 0 10px 20px rgba(20, 29, 27, 0.18);
+}
+
+.timeline-track::before {
+  background: linear-gradient(90deg, #d77a59, #f5c28b);
+}
+
+.music-action-main {
+  background: linear-gradient(180deg, #2a3431, #1d2624);
+  box-shadow: 0 12px 24px rgba(17, 22, 21, 0.18);
+}
+
+.music-action-menu button,
+.youtube-result,
+.album-modal,
+.youtube-modal,
+.account-modal,
+.theme-modal,
+.playlist-modal {
+  border-radius: 14px;
+}
+
+.youtube-modal,
+.album-modal,
+.account-modal,
+.theme-modal,
+.playlist-modal {
+  border: 1px solid rgba(28, 35, 34, 0.08);
+  box-shadow: 0 30px 80px rgba(16, 22, 21, 0.16);
+}
+
+.youtube-result:hover {
+  background: #fff7f3;
+}
+
+.youtube-result.chosen {
+  background: #fff4ee;
+  border: 1px solid rgba(219, 121, 93, 0.35);
+}
+
+.sidebar-login-top-btn,
+.sidebar-login-btn,
+.sidebar-user-card,
+.sidebar-theme-btn,
+.nav-item,
+.create-playlist,
+.history button,
+.search,
+.album-card,
+.song-row,
+.player,
+.hero,
+.hero-play,
+.music-action-main,
+.music-action-menu button,
+.youtube-result {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.sidebar-login-top-btn:hover,
+.sidebar-user-card:hover,
+.song-row:hover,
+.album-card:hover,
+.music-action-menu button:hover,
+.hero-play:hover,
+.music-action-main:hover,
+.history button:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 850px) {
+  .content {
+    padding: 18px 16px 42px;
+  }
+
+  .hero {
+    min-height: 180px;
+  }
+
+  .hero-copy {
+    padding: 24px 18px;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .track-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 560px) {
+  .search {
+    height: 42px;
+  }
+
+  .hero h1 {
+    font-size: 1.9rem;
+  }
+
+  .section-head h2 {
+    font-size: 1.6rem;
+  }
+
+  .song-row {
+    grid-template-columns: 18px 36px minmax(0, 1fr) auto 24px;
+    gap: 8px;
+    padding-inline: 10px;
+  }
+
+  .song-header {
+    display: none;
+  }
+}

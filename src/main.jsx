@@ -35,6 +35,7 @@ import {
   FolderPlus,
 } from "lucide-react";
 import "./styles.css";
+import "./ui-polish.css";
 let audioUrl = "";
 const art = (a) => `cover-art ${a}`;
 const readJson = async (response) => {

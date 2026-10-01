@@ -286,10 +286,10 @@ function App() {
     window.addEventListener("click", handleClose);
     return () => window.removeEventListener("click", handleClose);
   }, [menu]);
-  useEffect(
-    () => localStorage.setItem("sonora-language", language),
-    [language],
-  );
+  useEffect(() => {
+    localStorage.setItem("sonora-language", language);
+    window.dispatchEvent(new Event("sonora-language-changed"));
+  }, [language]);
   useEffect(
     () => localStorage.setItem("sonora-playlists", JSON.stringify(lists)),
     [lists],
@@ -1688,21 +1688,29 @@ function ThemeStudio() {
     ),
     [motion, setMotion] = useState(
       () => localStorage.getItem("sonora-motion") !== "off",
+    ),
+    [locale, setLocale] = useState(
+      () => localStorage.getItem("sonora-language") || "en",
     );
   useEffect(() => {
+    const syncLocale = () =>
+      setLocale(localStorage.getItem("sonora-language") || "en");
     const launch = (e) => {
       e?.preventDefault?.();
       e?.stopPropagation?.();
       setOpen(true);
     };
     window.addEventListener("sonora-open-theme", launch);
+    window.addEventListener("sonora-language-changed", syncLocale);
     const button = document.querySelector(".upgrade");
     if (button) {
       button.textContent = "Theme studio";
       button.addEventListener("click", launch, true);
     }
+    syncLocale();
     return () => {
       window.removeEventListener("sonora-open-theme", launch);
+      window.removeEventListener("sonora-language-changed", syncLocale);
       button?.removeEventListener("click", launch, true);
     };
   }, []);
@@ -1721,12 +1729,18 @@ function ThemeStudio() {
     localStorage.setItem("sonora-theme", theme);
     localStorage.setItem("sonora-motion", motion ? "on" : "off");
   }, [theme, motion]);
+  const isThai = locale === "th";
   const themes = [
-    ["classic", "Classic", "Fresh ivory"],
-    ["midnight", "Midnight", "Deep blue"],
-    ["sunset", "Sunset", "Warm coral"],
-    ["lilac", "Lilac", "Soft purple"],
+    ["classic", isThai ? "คลาสสิก" : "Classic", isThai ? "ไอวอรีนุ่มนวล" : "Fresh ivory"],
+    ["midnight", isThai ? "มิดไนต์" : "Midnight", isThai ? "น้ำเงินเข้ม" : "Deep blue"],
+    ["sunset", isThai ? "ซันเซ็ต" : "Sunset", isThai ? "คอรัลอบอุ่น" : "Warm coral"],
+    ["lilac", isThai ? "ไลแลค" : "Lilac", isThai ? "ม่วงละมุน" : "Soft purple"],
   ];
+  const subtitle = isThai
+    ? "เลือกบรรยากาศที่เหมาะกับการฟังของคุณ"
+    : "Choose a mood that fits your listening";
+  const motionText = isThai ? "เปิดเอฟเฟกต์พื้นหลังแบบนุ่มนวล" : "Enable subtle background motion";
+  const motionLabel = isThai ? "เอฟเฟกต์พื้นหลัง" : "Ambient motion";
   return (
     open && (
       <div className="theme-backdrop" onMouseDown={() => setOpen(false)}>
@@ -1737,9 +1751,9 @@ function ThemeStudio() {
           <button className="modal-close" onClick={() => setOpen(false)}>
             <X size={18} />
           </button>
-          <span className="theme-kicker">PERSONALIZE</span>
-          <h2>Theme studio</h2>
-          <p>เลือกบรรยากาศที่เหมาะกับการฟังของคุณ</p>
+          <span className="theme-kicker">{isThai ? "ปรับแต่ง" : "PERSONALIZE"}</span>
+          <h2>{isThai ? "ปรับธีม" : "Theme studio"}</h2>
+          <p>{subtitle}</p>
           <div className="theme-grid">
             {themes.map(([id, name, detail]) => (
               <button
@@ -1758,8 +1772,8 @@ function ThemeStudio() {
           </div>
           <label className="motion-toggle">
             <span>
-              <strong>Ambient motion</strong>
-              <small>เปิดเอฟเฟกต์พื้นหลังแบบนุ่มนวล</small>
+              <strong>{motionLabel}</strong>
+              <small>{motionText}</small>
             </span>
             <input
               type="checkbox"

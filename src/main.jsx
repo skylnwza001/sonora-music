@@ -1722,6 +1722,7 @@ function ThemeStudio() {
         "theme-midnight",
         "theme-sunset",
         "theme-lilac",
+        "theme-space",
       );
       shell.classList.add(`theme-${theme}`);
       shell.classList.toggle("no-motion", !motion);
@@ -1735,6 +1736,7 @@ function ThemeStudio() {
     ["midnight", isThai ? "มิดไนต์" : "Midnight", isThai ? "น้ำเงินเข้ม" : "Deep blue"],
     ["sunset", isThai ? "ซันเซ็ต" : "Sunset", isThai ? "คอรัลอบอุ่น" : "Warm coral"],
     ["lilac", isThai ? "ไลแลค" : "Lilac", isThai ? "ม่วงละมุน" : "Soft purple"],
+    ["space", isThai ? "อวกาศ" : "Space", isThai ? "อันตรกิริยาดาวเคราะห์" : "Nebula glow"],
   ];
   const subtitle = isThai
     ? "เลือกบรรยากาศที่เหมาะกับการฟังของคุณ"

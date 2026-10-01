@@ -849,10 +849,7 @@ function App() {
           {currentUser ? (
             <div
               className="sidebar-user-card"
-              onClick={() => {
-                window.dispatchEvent(new CustomEvent("sonora-open-profile"));
-                setMobileMenuOpen(false);
-              }}
+              onClick={() => setMobileMenuOpen(false)}
             >
               <div className="avatar">
                 {currentUser.avatarUrl ? (
@@ -1930,173 +1927,6 @@ function LanguageLocalizer() {
   }, []);
   return null;
 }
-function ProfilePage() {
-  const [open, setOpen] = useState(false),
-    [user, setUser] = useState(
-      () =>
-        JSON.parse(localStorage.getItem("sonora-user") || "null") || {
-          name: "Alex Morgan",
-          email: "",
-        },
-    ),
-    [bio, setBio] = useState(
-      () =>
-        localStorage.getItem("sonora-profile-bio") ||
-        "Music lover and playlist curator.",
-    ),
-    [message, setMessage] = useState(""),
-    [busy, setBusy] = useState(false);
-  useEffect(() => {
-    const launch = (e) => {
-      if (e.target.closest(".profile")) setOpen(true);
-    };
-    document.addEventListener("click", launch);
-    return () => document.removeEventListener("click", launch);
-  }, []);
-  const save = async (e) => {
-    e.preventDefault();
-    setBusy(true);
-    setMessage("");
-    try {
-      const token = localStorage.getItem("sonora-token");
-      if (token) {
-        const r = await fetch("/api/auth/profile", {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(user),
-          }),
-          data = await readJson(r);
-        if (!r.ok) throw Error(data.error);
-        setUser(data.user);
-        localStorage.setItem("sonora-user", JSON.stringify(data.user));
-      } else localStorage.setItem("sonora-user", JSON.stringify(user));
-      localStorage.setItem("sonora-profile-bio", bio);
-      document.querySelector(".profile strong") &&
-        (document.querySelector(".profile strong").textContent = user.name);
-      setMessage("บันทึกโปรไฟล์แล้ว");
-    } catch (error) {
-      setMessage(error.message || "บันทึกไม่สำเร็จ");
-    } finally {
-      setBusy(false);
-    }
-  };
-  return (
-    open && (
-      <div className="profile-page">
-        <header className="profile-page-header">
-          <button onClick={() => setOpen(false)}>
-            <ChevronLeft size={20} />
-            กลับหน้าหลัก
-          </button>
-          <span>PROFILE</span>
-        </header>
-        <main className="profile-content">
-          <section className="profile-cover">
-            <div className="profile-avatar-large">
-              {user.name.slice(0, 2).toUpperCase()}
-            </div>
-            <div>
-              <p>YOUR PROFILE</p>
-              <h1>{user.name}</h1>
-              <span>{user.email || "Music member"}</span>
-            </div>
-          </section>
-          <form className="profile-form" onSubmit={save}>
-            <div className="profile-form-head">
-              <div>
-                <p>ACCOUNT SETTINGS</p>
-                <h2>แก้ไขโปรไฟล์</h2>
-              </div>
-              <button disabled={busy}>
-                {busy ? "กำลังบันทึก…" : "บันทึกการเปลี่ยนแปลง"}
-              </button>
-            </div>
-            <label>
-              ชื่อที่แสดง
-              <input
-                value={user.name}
-                onChange={(e) => setUser({ ...user, name: e.target.value })}
-                required
-              />
-            </label>
-            <label>
-              อีเมล
-              <input
-                type="email"
-                value={user.email}
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
-                placeholder="your@email.com"
-                required
-              />
-            </label>
-            <label>
-              เกี่ยวกับคุณ
-              <textarea
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                maxLength="180"
-              />
-            </label>
-            {message && <small className="profile-message">{message}</small>}
-          </form>
-        </main>
-      </div>
-    )
-  );
-}
-function ProfileAvatarPicker() {
-  useEffect(() => {
-    const paint = () => {
-      const user = JSON.parse(localStorage.getItem("sonora-user") || "null"),
-        avatar = user?.avatarUrl,
-        large = document.querySelector(".profile-avatar-large");
-      if (avatar && large && !large.querySelector("img"))
-        large.innerHTML = `<img src="${avatar}" alt="Profile photo">`;
-      const small = document.querySelector(".profile .avatar");
-      if (avatar && small) small.innerHTML = `<img src="${avatar}" alt="">`;
-      if (large && !document.querySelector(".avatar-upload-input")) {
-        const input = document.createElement("input");
-        input.className = "avatar-upload-input";
-        input.type = "file";
-        input.accept = "image/jpeg,image/png,image/webp";
-        input.title = "เปลี่ยนรูปโปรไฟล์";
-        input.addEventListener("change", async () => {
-          const file = input.files?.[0],
-            token = localStorage.getItem("sonora-token");
-          if (!file || !token) return;
-          if (file.size > 5 * 1024 * 1024)
-            return alert("รูปภาพต้องมีขนาดไม่เกิน 5 MB");
-          const data = new FormData();
-          data.append("avatar", file);
-          try {
-            const r = await fetch("/api/auth/profile/avatar", {
-                method: "POST",
-                headers: { Authorization: `Bearer ${token}` },
-                body: data,
-              }),
-              result = await readJson(r);
-            if (!r.ok) throw Error(result.error);
-            localStorage.setItem("sonora-user", JSON.stringify(result.user));
-            large.innerHTML = `<img src="${result.user.avatarUrl}" alt="Profile photo">`;
-            const sidebar = document.querySelector(".profile .avatar");
-            if (sidebar)
-              sidebar.innerHTML = `<img src="${result.user.avatarUrl}" alt="">`;
-          } catch (error) {
-            alert(error.message || "อัปโหลดรูปไม่สำเร็จ");
-          }
-        });
-        large.parentElement.appendChild(input);
-      }
-    };
-    paint();
-    const timer = setInterval(paint, 350);
-    return () => clearInterval(timer);
-  }, []);
-  return null;
-}
 function PlaylistNameLocalizer() {
   useEffect(() => {
     const th = {
@@ -2219,8 +2049,6 @@ createRoot(document.getElementById("root")).render(
     <TextNodeLocalizer />
     <PlaylistNameLocalizer />
     <LanguageRefresh />
-    <ProfilePage />
-    <ProfileAvatarPicker />
     <Account />
   </>,
 );

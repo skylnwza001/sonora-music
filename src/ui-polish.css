@@ -14,6 +14,141 @@ body {
   background: linear-gradient(180deg, #efefe9 0%, #e7e7e3 100%);
 }
 
+.hero {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  border-radius: 26px;
+  overflow: hidden;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 58%;
+  padding: 34px 36px 30px;
+}
+
+.hero-copy > p {
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hero-copy h1 {
+  margin: 0;
+  font-size: clamp(2.8rem, 4vw, 4.8rem);
+  line-height: 0.94;
+  letter-spacing: -0.06em;
+  color: var(--ink);
+}
+
+.hero-copy h1 em {
+  display: block;
+  margin-top: 10px;
+  color: #df7b52;
+  font-style: normal;
+}
+
+.hero-copy > span {
+  display: block;
+  margin-top: 18px;
+  max-width: 390px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(27, 35, 32, 0.72);
+}
+
+.hero-play {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 12px 22px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.hero-play:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.04);
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 34px;
+  margin-bottom: 16px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 2.2vw, 2.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.section-head p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: rgba(40, 54, 49, 0.65);
+}
+
+.section-head button {
+  min-width: 88px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.track-grid {
+  gap: 18px;
+}
+
+.album-card {
+  padding: 10px 10px 14px;
+  border-radius: 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.album-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(25, 30, 28, 0.1);
+}
+
+.album-card h3 {
+  margin: 14px 0 4px;
+  font-size: 1.05rem;
+}
+
+.album-card p {
+  margin: 0;
+  font-size: 0.81rem;
+  color: rgba(32, 40, 37, 0.68);
+}
+
+.theme-midnight .hero-copy > span,
+.theme-midnight .hero-copy h1 em,
+.theme-midnight .section-head p,
+.theme-midnight .album-card p {
+  opacity: 0.92;
+}
+
 .app-shell {
   background: transparent;
 }
